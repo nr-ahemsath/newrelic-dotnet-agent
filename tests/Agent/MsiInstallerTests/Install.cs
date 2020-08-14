@@ -95,13 +95,6 @@ namespace FunctionalTests
         }
 
         [Test]
-        [Description("Verifies the copyright date in the 'LICENSE.txt' file is correct.")]
-        public void License_txt__Copyright_Date()
-        {
-            Assert.IsTrue(FileOperations.ParseTextFile(string.Format("{0}LICENSE.txt", TServer.InstallPath)).Contains(string.Format("Copyright (c) 2008-{0} New Relic, Inc.  All rights reserved.", DateTime.Now.Year)));
-        }
-
-        [Test]
         [Description("Verifies the 'default_newrelic.config' file structure is correct and has not been altered.")]
         public void default_newrelic_config_Correct()
         {
