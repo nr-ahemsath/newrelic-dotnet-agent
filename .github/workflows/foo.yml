@@ -1,0 +1,14 @@
+name: Playground Action
+
+on: [push, workflow_dispatch]
+
+jobs:
+  foo:
+    name: foo
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test Default Branch
+        id: default-branch
+        run: |
+            echo "It worky"
+        shell: bash
