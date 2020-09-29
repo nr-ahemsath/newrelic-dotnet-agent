@@ -305,6 +305,7 @@ jobs:
     env:
       integration_solution_path: ${{ github.workspace }}\tests\Agent\IntegrationTests\IntegrationTests.sln
       secrets_file_path: ${{ github.workspace }}\secrets.json
+      INTEGRATION_TEST_SECRETS: ${{ secrets.TEST_SECRETS }}
 
     steps:
     - name: Checkout
@@ -329,7 +330,8 @@ jobs:
 
     - name: Create secrets file
       run: |
-        echo ${{ secrets.TEST_SECRETS }} > ${{ env.secrets_file_path }}
+        echo "$Env:INTEGRATION_TEST_SECRETS" > ${{ env.secrets_file_path }}
+      shell: powershell
 
     - name: Run Integration Tests
       run: |
