@@ -304,6 +304,7 @@ jobs:
 
     env:
       integration_solution_path: ${{ github.workspace }}\tests\Agent\IntegrationTests\IntegrationTests.sln
+      secrets_file_path: ${{ github.workspace }}\secrets.json
 
     steps:
     - name: Checkout
@@ -324,6 +325,16 @@ jobs:
       run: |
         Write-Host "MSBuild.exe -m -p:Configuration=Release -p:DeployOnBuild=true -p:PublishProfile=LocalDeploy ${{ env.integration_solution_path }}"
         MSBuild.exe -m -p:Configuration=Release -p:DeployOnBuild=true -p:PublishProfile=LocalDeploy ${{ env.integration_solution_path }}
+      shell: powershell
+
+    - name: Create secrets file
+      run: |
+        echo ${{ secrets.TEST_SECRETS }} > ${{ env.secrets_file_path }}
+
+    - name: Run Integration Tests
+      run: |
+        Write-Host ${{ env.scripts_path }}\run-integration-tests.ps1
+        ${{ env.scripts_path }}\run-integration-tests.ps1 -testSuite integration -secretsFilePath ${{ env.secrets_file_path }}
       shell: powershell
 
   build-unbounded-tests:
