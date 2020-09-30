@@ -8,15 +8,18 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
         matrix:
-            namespace: [ AgentFeatures, Api, AspNetCore, BasicInstrumentation, CatInbound, CatOutbound, CSP,
-              CustomAttributes, CustomInstrumentation, DistributedTracing, DistributedTracing.W3CInstrumentationTests, 
-              HttpClientInstrumentation.NetCore, HttpClientInstrumentation.NetFramework, Logging, Owin, ReJit.NetCore, 
-              ReJit.NetFramework, RemoteServiceFixtures, RestSharp, WCF.Client, WCF.Client.IIS, WCF.Client.IIS.ASPDisabled, 
-              WCF.Client.IIS.ASPEnabled, WCF.Client.Self, WCF, WCF.Service, WCF.Service.IIS, WCF.Service.IIS.ASPDisabled, 
-              WCF.Service.IIS.ASPEnabled, WCF.Service.Self ] 
+            # namespace: [ AgentFeatures, Api, AspNetCore, BasicInstrumentation, CatInbound, CatOutbound, CSP,
+            #   CustomAttributes, CustomInstrumentation, DistributedTracing, DistributedTracing.W3CInstrumentationTests, 
+            #   HttpClientInstrumentation.NetCore, HttpClientInstrumentation.NetFramework, Logging, Owin, ReJit.NetCore, 
+            #   ReJit.NetFramework, RemoteServiceFixtures, RestSharp, WCF.Client, WCF.Client.IIS, WCF.Client.IIS.ASPDisabled, 
+            #   WCF.Client.IIS.ASPEnabled, WCF.Client.Self, WCF, WCF.Service, WCF.Service.IIS, WCF.Service.IIS.ASPDisabled, 
+            #   WCF.Service.IIS.ASPEnabled, WCF.Service.Self ] 
+            namespace: [ AgentFeatures, Api, AspNetCore, BasicInstrumentation ]
     steps:
       - name: Test Default Branch
         id: default-branch
+        env:
+            WORKSPACE: ${{ matrix.namespace }}
         run: |
-            echo "namespace: NewRelic.Agent.IntegrationTests.${matrix.namespace}"
+            echo "namespace: NewRelic.Agent.IntegrationTests.${WORKSPACE}"
         shell: bash
