@@ -30,6 +30,7 @@ jobs:
       - name: Hexdump secrets
         run: |
             "$Env:SUPER_SECRET" | Format-Hex
+        shell: powershell
       
       - name: Test secrets BOM 
         run: |
