@@ -26,6 +26,10 @@ jobs:
         run: |
             echo "namespace: NewRelic.Agent.IntegrationTests.${WORKSPACE}"
         shell: bash
+
+      - name: Hexdump secrets
+        run: |
+            "$Env:SUPER_SECRET" | Format-Hex
       
       - name: Test secrets BOM 
         run: |
