@@ -2,10 +2,13 @@ name: Playground Action
 
 on: [push, workflow_dispatch]
 
+env:
+    SUPER_SECRET: ${{ secrets.NOT_REALLY_SECRET }}
+
 jobs:
   foo:
     name: foo
-    runs-on: ubuntu-latest
+    runs-on: windows-2019
     strategy:
         matrix:
             # namespace: [ AgentFeatures, Api, AspNetCore, BasicInstrumentation, CatInbound, CatOutbound, CSP,
@@ -14,7 +17,7 @@ jobs:
             #   ReJit.NetFramework, RemoteServiceFixtures, RestSharp, WCF.Client, WCF.Client.IIS, WCF.Client.IIS.ASPDisabled, 
             #   WCF.Client.IIS.ASPEnabled, WCF.Client.Self, WCF, WCF.Service, WCF.Service.IIS, WCF.Service.IIS.ASPDisabled, 
             #   WCF.Service.IIS.ASPEnabled, WCF.Service.Self ] 
-            namespace: [ AgentFeatures, Api, AspNetCore, BasicInstrumentation ]
+            namespace: [ AgentFeatures, Api ]
     steps:
       - name: Test Default Branch
         id: default-branch
@@ -23,3 +26,12 @@ jobs:
         run: |
             echo "namespace: NewRelic.Agent.IntegrationTests.${WORKSPACE}"
         shell: bash
+      
+      - name: Test secrets BOM 
+        run: |
+            mkdir test_project
+            cd test_project
+            dotnet new console
+            dotnet user-secrets init
+            "$Env:SUPER_SECRET" | dotnet user-secrets set
+        shell: powershell
