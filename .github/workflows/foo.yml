@@ -39,4 +39,4 @@ jobs:
             dotnet new console
             dotnet user-secrets init
             "$Env:SUPER_SECRET" | %{$_ -replace "\xEF\xBB\xBF",''} | dotnet user-secrets set
-        shell: powershell
+        shell: pwsh
