@@ -6,37 +6,30 @@ env:
     SUPER_SECRET: ${{ secrets.NOT_REALLY_SECRET }}
 
 jobs:
-  foo:
-    name: foo
-    runs-on: windows-2019
-    strategy:
-        matrix:
-            # namespace: [ AgentFeatures, Api, AspNetCore, BasicInstrumentation, CatInbound, CatOutbound, CSP,
-            #   CustomAttributes, CustomInstrumentation, DistributedTracing, DistributedTracing.W3CInstrumentationTests, 
-            #   HttpClientInstrumentation.NetCore, HttpClientInstrumentation.NetFramework, Logging, Owin, ReJit.NetCore, 
-            #   ReJit.NetFramework, RemoteServiceFixtures, RestSharp, WCF.Client, WCF.Client.IIS, WCF.Client.IIS.ASPDisabled, 
-            #   WCF.Client.IIS.ASPEnabled, WCF.Client.Self, WCF, WCF.Service, WCF.Service.IIS, WCF.Service.IIS.ASPDisabled, 
-            #   WCF.Service.IIS.ASPEnabled, WCF.Service.Self ] 
-            namespace: [ AgentFeatures, Api ]
+  one:
+    runs-on: ubuntu-latest
     steps:
-      - name: Test Default Branch
-        id: default-branch
+      - name: Dump GitHub context
         env:
-            WORKSPACE: ${{ matrix.namespace }}
-        run: |
-            echo "namespace: NewRelic.Agent.IntegrationTests.${WORKSPACE}"
-        shell: bash
-
-      - name: Hexdump secrets
-        run: |
-            "$Env:SUPER_SECRET" | Format-Hex
-        shell: powershell
-      
-      - name: Test secrets BOM 
-        run: |
-            mkdir test_project
-            cd test_project
-            dotnet new console
-            dotnet user-secrets init
-            "$Env:SUPER_SECRET" | %{$_ -replace "\xEF\xBB\xBF",''} | dotnet user-secrets set
-        shell: pwsh
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Dump job context
+        env:
+          JOB_CONTEXT: ${{ toJson(job) }}
+        run: echo "$JOB_CONTEXT"
+      - name: Dump steps context
+        env:
+          STEPS_CONTEXT: ${{ toJson(steps) }}
+        run: echo "$STEPS_CONTEXT"
+      - name: Dump runner context
+        env:
+          RUNNER_CONTEXT: ${{ toJson(runner) }}
+        run: echo "$RUNNER_CONTEXT"
+      - name: Dump strategy context
+        env:
+          STRATEGY_CONTEXT: ${{ toJson(strategy) }}
+        run: echo "$STRATEGY_CONTEXT"
+      - name: Dump matrix context
+        env:
+          MATRIX_CONTEXT: ${{ toJson(matrix) }}
+        run: echo "$MATRIX_CONTEXT"
