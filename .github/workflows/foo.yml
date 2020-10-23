@@ -14,7 +14,7 @@ jobs:
       run: |
         echo "enhanced logging = $Env:enhanced_logging"
 
-        if ($Env:enhanced_logging) {
+        if ($Env:enhanced_logging -eq $True) {
           echo "enhanced logging on"
         } else {
           echo "enhanced logging off"
