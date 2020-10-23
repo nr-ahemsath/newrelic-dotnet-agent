@@ -19,4 +19,4 @@ jobs:
         } else {
           echo "enhanced logging off"
         }
-      script: powershell
+      shell: powershell
