@@ -10,7 +10,7 @@ jobs:
   one:
     runs-on: windows-2019
     steps:
-      - name: Test logic
+    - name: Test logic
       run: |
         echo "enhanced logging = $Env:enhanced_logging"
 
