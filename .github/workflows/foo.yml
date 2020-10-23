@@ -4,7 +4,7 @@ on: [push, workflow_dispatch]
 
 env:
     SUPER_SECRET: ${{ secrets.NOT_REALLY_SECRET }}
-    enhanced_logging: false
+    enhanced_logging: true
 
 jobs:
   one:
