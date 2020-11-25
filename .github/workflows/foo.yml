@@ -12,6 +12,8 @@ jobs:
     steps:
     - name: Test logic
       run: |
+
+        echo "github event = " + ${{ github.event }}
         echo "enhanced logging = $Env:enhanced_logging"
 
         if ($Env:enhanced_logging -eq $True) {
