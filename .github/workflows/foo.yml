@@ -13,7 +13,7 @@ jobs:
     runs-on: windows-2019
     steps:
     - name: Test logic
-      if: github.event_name == 'push'
+      if: github.event_name == 'push2'
       run: |
 
         echo "github event name = ${{ github.event_name }}"
