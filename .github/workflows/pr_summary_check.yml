@@ -5,12 +5,7 @@ on:
     branches:
       - main
   
-  # # needs to run on every push to main to keep CodeCov in sync
-  # push:
-  #   branches:
-  #     - main
-      
-  # workflow_dispatch: # allows for manual trigger
+  workflow_dispatch: # allows for manual trigger
 
 env:
   DOTNET_NOLOGO: true
