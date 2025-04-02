@@ -22,6 +22,10 @@ jobs:
       contents: read
       pull-requests: read
     steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
       - name: Check PR summary
         run: |
           echo ${{ github.pr.summary }}
