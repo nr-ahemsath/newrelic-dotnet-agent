@@ -22,7 +22,7 @@ jobs:
         run: |
           echo "Pull request title='${PR_TITLE}'"
           good_prefixes="feat fix security notice chore docs ci test"
-          good_prefix_arr=$(good_prefixes)
+          good_prefix_arr=($good_prefixes)
           if [[ "${PR_TITLE}" =~ ^(.+?)\:.+ ]]; then
               prefix=${BASH_REMATCH[1]}
               echo "prefix: ${prefix}"
