@@ -1,0 +1,54 @@
+name: Ensure PR summary has correct prefix
+
+on:
+  pull_request:
+    branches:
+      - main
+  
+  # # needs to run on every push to main to keep CodeCov in sync
+  # push:
+  #   branches:
+  #     - main
+      
+  # workflow_dispatch: # allows for manual trigger
+
+env:
+  DOTNET_NOLOGO: true
+  NR_DEV_BUILD_HOME: false
+
+permissions:
+  contents: read
+
+jobs:
+  check-pr-summary:
+    name: Check if PR summary has a good prefix
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - name: Check PR summary
+        run: |
+          echo ${{ github.pr.summary }}
+          summary=${{ github.pr.summary }}
+
+          if [[ "${summary}" =~ ^(.+?)\:.+ ]]; then
+              prefix=${BASH_REMATCH[1]}
+              echo "prefix: ${prefix}"
+              prefix_without_parens=$(echo "${prefix}" |cut -d'(' -f1)
+              echo "prefix without parens = ${prefix_without_parens}"
+              for good_prefix in feat fix security notice chore docs ci test
+              do
+                  if [[ "${prefix_without_parens}" == "${good_prefix}" ]]; then
+                      echo "prefix is good"
+                      exit 0
+                  fi
+              done
+              echo "Commit summary prefix ${prefix_without_parens} is not valid"
+              echo "Prefix must be one of 'feat', 'fix', 'security', 'notice', 'chore', 'docs', 'ci', or 'test'"
+              exit 1
+          else
+              echo "Invalid summary"
+              exit 1
+          fi
+        shell: bash
